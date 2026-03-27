@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Munazer Montasir Akash — AI/ML Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --bg:#1c1c1e;
+    --bg2:#2c2c2e;
+    --bg3:#383839;
+    --surface:#242424;
+    --border:#3a3a3c;
+    --accent:#ffd166;
+    --accent2:#f7934c;
+    --text:#d4d4d4;
+    --text2:#888;
+    --text3:#aaa;
+    --white:#fff;
+    --radius:12px;
+    --radius-lg:20px;
+    --shadow:0 8px 40px rgba(0,0,0,.5);
+  }
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Poppins',sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    min-height:100vh;
+    line-height:1.6;
+    font-size:15px;
+  }
+
+  /* ── Layout ── */
+  .layout{
+    display:grid;
+    grid-template-columns:310px 1fr;
+    gap:24px;
+    max-width:1200px;
+    margin:0 auto;
+    padding:24px;
+    align-items:start;
+  }
+  @media(max-width:900px){.layout{grid-template-columns:1fr;padding:16px}}
+
+  /* ── Sidebar ── */
+  .sidebar{
+    background:var(--bg2);
+    border-radius:var(--radius-lg);
+    border:1px solid var(--border);
+    overflow:hidden;
+    position:sticky;
+    top:24px;
+  }
+  .sidebar-inner{padding:32px 24px}
+  .avatar-wrap{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:12px;
+    margin-bottom:24px;
+  }
+  .avatar{
+    width:100px;height:100px;
+    border-radius:50%;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    display:flex;align-items:center;justify-content:center;
+    font-size:32px;font-weight:600;
+    color:#1c1c1e;
+    letter-spacing:-1px;
+    flex-shrink:0;
+  }
+  .name{font-size:22px;font-weight:600;color:var(--white);text-align:center;line-height:1.3}
+  .title-badge{
+    background:var(--bg3);
+    border:1px solid var(--border);
+    padding:4px 14px;
+    border-radius:100px;
+    font-size:12px;
+    color:var(--accent);
+    text-align:center;
+    font-family:'JetBrains Mono',monospace;
+    letter-spacing:.3px;
+  }
+
+  .show-contacts-btn{
+    width:100%;
+    padding:10px;
+    background:transparent;
+    border:1px solid var(--border);
+    border-radius:8px;
+    color:var(--text3);
+    font-size:13px;
+    cursor:pointer;
+    transition:all .2s;
+    margin-bottom:20px;
+    font-family:'Poppins',sans-serif;
+  }
+  .show-contacts-btn:hover{border-color:var(--accent);color:var(--accent)}
+  .show-contacts-btn.open{border-color:var(--accent);color:var(--accent)}
+
+  .contacts{display:none;flex-direction:column;gap:12px;margin-bottom:24px}
+  .contacts.visible{display:flex}
+  .contact-item{display:flex;align-items:flex-start;gap:12px}
+  .contact-icon{
+    width:36px;height:36px;flex-shrink:0;
+    background:var(--bg3);
+    border-radius:8px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:14px;
+  }
+  .contact-label{font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px}
+  .contact-val{font-size:13px;color:var(--text);word-break:break-all}
+  .contact-val a{color:var(--text);text-decoration:none;transition:color .2s}
+  .contact-val a:hover{color:var(--accent)}
+
+  .sidebar-sep{height:1px;background:var(--border);margin:0 0 20px}
+
+  .social-row{display:flex;gap:10px;justify-content:center;padding-bottom:4px}
+  .social-btn{
+    display:flex;align-items:center;justify-content:center;
+    width:36px;height:36px;
+    border-radius:8px;
+    background:var(--bg3);
+    border:1px solid var(--border);
+    color:var(--text3);
+    text-decoration:none;
+    font-size:16px;
+    transition:all .2s;
+  }
+  .social-btn:hover{border-color:var(--accent);color:var(--accent);background:rgba(255,209,102,.08)}
+
+  /* ── Main ── */
+  .main{display:flex;flex-direction:column;gap:0}
+
+  /* ── Tabs ── */
+  .tabs{
+    background:var(--bg2);
+    border-radius:var(--radius-lg);
+    border:1px solid var(--border);
+    padding:0 8px;
+    display:flex;
+    gap:4px;
+    margin-bottom:24px;
+    overflow-x:auto;
+  }
+  .tab{
+    padding:14px 18px;
+    background:transparent;
+    border:none;
+    border-bottom:2px solid transparent;
+    color:var(--text2);
+    font-size:14px;
+    font-weight:500;
+    cursor:pointer;
+    transition:all .2s;
+    white-space:nowrap;
+    font-family:'Poppins',sans-serif;
+    position:relative;
+  }
+  .tab:hover{color:var(--text)}
+  .tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+
+  /* ── Sections ── */
+  .section{display:none}
+  .section.active{display:block}
+
+  /* ── Cards ── */
+  .card{
+    background:var(--bg2);
+    border:1px solid var(--border);
+    border-radius:var(--radius-lg);
+    padding:28px;
+    margin-bottom:24px;
+  }
+  .card:last-child{margin-bottom:0}
+  .card-title{
+    font-size:14px;
+    font-weight:600;
+    color:var(--white);
+    text-transform:uppercase;
+    letter-spacing:1.5px;
+    margin-bottom:24px;
+    padding-bottom:14px;
+    border-bottom:1px solid var(--border);
+    position:relative;
+  }
+  .card-title::after{
+    content:'';
+    position:absolute;
+    bottom:-1px;left:0;
+    width:40px;height:2px;
+    background:var(--accent);
+  }
+
+  /* ── About ── */
+  .about-text{color:var(--text3);line-height:1.8;font-size:14.5px}
+
+  .services-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+    margin-top:4px;
+  }
+  @media(max-width:600px){.services-grid{grid-template-columns:1fr}}
+  .service-item{
+    background:var(--bg3);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:18px;
+    display:flex;
+    gap:14px;
+    align-items:flex-start;
+    transition:border-color .2s;
+  }
+  .service-item:hover{border-color:var(--accent)}
+  .service-icon{font-size:28px;flex-shrink:0;line-height:1}
+  .service-name{font-size:14px;font-weight:600;color:var(--white);margin-bottom:4px}
+  .service-desc{font-size:12.5px;color:var(--text2);line-height:1.5}
+
+  .tech-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+  .tech-tag{
+    background:var(--bg3);
+    border:1px solid var(--border);
+    border-radius:100px;
+    padding:4px 12px;
+    font-size:12px;
+    color:var(--text3);
+    font-family:'JetBrains Mono',monospace;
+    transition:all .2s;
+  }
+  .tech-tag:hover{border-color:var(--accent);color:var(--accent)}
+
+  /* ── Resume ── */
+  .timeline{position:relative;padding-left:28px}
+  .timeline::before{
+    content:'';
+    position:absolute;left:8px;top:6px;
+    width:2px;height:calc(100% - 12px);
+    background:var(--border);
+  }
+  .tl-item{position:relative;margin-bottom:28px}
+  .tl-item:last-child{margin-bottom:0}
+  .tl-dot{
+    position:absolute;left:-24px;top:6px;
+    width:12px;height:12px;
+    border-radius:50%;
+    background:var(--accent);
+    border:2px solid var(--bg2);
+  }
+  .tl-period{
+    font-size:11px;
+    color:var(--accent);
+    font-family:'JetBrains Mono',monospace;
+    margin-bottom:4px;
+    letter-spacing:.5px;
+  }
+  .tl-title{font-size:15px;font-weight:600;color:var(--white);margin-bottom:2px}
+  .tl-sub{font-size:13px;color:var(--text2);margin-bottom:8px}
+  .tl-desc{font-size:13.5px;color:var(--text3);line-height:1.7}
+  .tl-desc ul{padding-left:16px}
+  .tl-desc li{margin-bottom:4px}
+
+  .skill-list{display:flex;flex-direction:column;gap:14px}
+  .skill-item{}
+  .skill-header{display:flex;justify-content:space-between;margin-bottom:6px}
+  .skill-name{font-size:13.5px;color:var(--text)}
+  .skill-pct{font-size:12px;color:var(--accent);font-family:'JetBrains Mono',monospace}
+  .skill-bar{height:4px;background:var(--bg3);border-radius:100px;overflow:hidden}
+  .skill-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:100px;transition:width 1s ease}
+
+  /* ── Portfolio ── */
+  .filter-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+  .filter-btn{
+    padding:6px 16px;
+    background:transparent;
+    border:1px solid var(--border);
+    border-radius:100px;
+    color:var(--text2);
+    font-size:13px;
+    cursor:pointer;
+    transition:all .2s;
+    font-family:'Poppins',sans-serif;
+  }
+  .filter-btn:hover{border-color:var(--accent);color:var(--accent)}
+  .filter-btn.active{background:var(--accent);color:#1c1c1e;border-color:var(--accent);font-weight:600}
+
+  .projects-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+  }
+  @media(max-width:600px){.projects-grid{grid-template-columns:1fr}}
+  .project-card{
+    background:var(--bg3);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    overflow:hidden;
+    transition:all .25s;
+    cursor:pointer;
+  }
+  .project-card:hover{border-color:var(--accent);transform:translateY(-3px)}
+  .project-card.hidden{display:none}
+  .project-thumb{
+    height:130px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:42px;
+    background:var(--bg2);
+    border-bottom:1px solid var(--border);
+  }
+  .project-body{padding:16px}
+  .project-cat{
+    font-size:11px;
+    font-family:'JetBrains Mono',monospace;
+    color:var(--accent);
+    margin-bottom:4px;
+    letter-spacing:.5px;
+  }
+  .project-name{font-size:14.5px;font-weight:600;color:var(--white);margin-bottom:6px}
+  .project-desc{font-size:12.5px;color:var(--text2);line-height:1.5}
+
+  /* ── Publications ── */
+  .pub-item{
+    background:var(--bg3);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:18px;
+    margin-bottom:12px;
+    transition:border-color .2s;
+  }
+  .pub-item:hover{border-color:var(--accent)}
+  .pub-venue{font-size:11px;color:var(--accent);font-family:'JetBrains Mono',monospace;margin-bottom:4px;letter-spacing:.5px}
+  .pub-title{font-size:14px;font-weight:600;color:var(--white);margin-bottom:4px}
+  .pub-status{font-size:12px;color:var(--text2)}
+
+  /* ── Certifications ── */
+  .cert-item{
+    background:var(--bg3);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:18px;
+    margin-bottom:12px;
+    display:flex;gap:14px;align-items:flex-start;
+    transition:border-color .2s;
+  }
+  .cert-item:hover{border-color:var(--accent)}
+  .cert-icon{font-size:24px;flex-shrink:0}
+  .cert-name{font-size:14px;font-weight:600;color:var(--white);margin-bottom:4px}
+  .cert-desc{font-size:12.5px;color:var(--text2);line-height:1.5}
+
+  /* ── Contact ── */
+  .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:24px}
+  @media(max-width:600px){.contact-grid{grid-template-columns:1fr}}
+  .contact-card{
+    background:var(--bg3);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:16px;
+    display:flex;gap:12px;align-items:center;
+    transition:border-color .2s;
+  }
+  .contact-card:hover{border-color:var(--accent)}
+  .contact-card-icon{
+    width:44px;height:44px;flex-shrink:0;
+    background:rgba(255,209,102,.1);
+    border-radius:10px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:20px;
+  }
+  .contact-card-label{font-size:11px;color:var(--text2);margin-bottom:3px;text-transform:uppercase;letter-spacing:.5px}
+  .contact-card-val{font-size:13px;color:var(--text);word-break:break-all}
+  .contact-card-val a{color:var(--text);text-decoration:none}
+  .contact-card-val a:hover{color:var(--accent)}
+
+  .form-group{margin-bottom:16px}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:600px){.form-row{grid-template-columns:1fr}}
+  .form-group label{display:block;font-size:12px;color:var(--text2);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}
+  .form-group input,.form-group textarea{
+    width:100%;
+    background:var(--bg3);
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:12px 14px;
+    color:var(--text);
+    font-size:14px;
+    font-family:'Poppins',sans-serif;
+    outline:none;
+    transition:border-color .2s;
+    resize:vertical;
+  }
+  .form-group input:focus,.form-group textarea:focus{border-color:var(--accent)}
+  .form-group textarea{min-height:120px}
+  .submit-btn{
+    width:100%;
+    padding:14px;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    border:none;
+    border-radius:8px;
+    color:#1c1c1e;
+    font-size:15px;
+    font-weight:600;
+    cursor:pointer;
+    font-family:'Poppins',sans-serif;
+    transition:opacity .2s,transform .15s;
+  }
+  .submit-btn:hover{opacity:.9;transform:translateY(-1px)}
+  .submit-btn:active{transform:translateY(0)}
+
+  /* ── Refs ── */
+  .ref-item{
+    background:var(--bg3);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:18px;
+    margin-bottom:12px;
+    transition:border-color .2s;
+  }
+  .ref-item:hover{border-color:var(--accent)}
+  .ref-name{font-size:14px;font-weight:600;color:var(--white);margin-bottom:3px}
+  .ref-role{font-size:12.5px;color:var(--text2);margin-bottom:6px}
+  .ref-email{font-size:13px;color:var(--accent);font-family:'JetBrains Mono',monospace}
+  .ref-email a{color:var(--accent);text-decoration:none}
+  .ref-email a:hover{text-decoration:underline}
+
+  /* ── Animations ── */
+  @keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+  .section.active{animation:fadeIn .3s ease}
+
+  /* ── Scrollbar ── */
+  ::-webkit-scrollbar{width:6px;height:6px}
+  ::-webkit-scrollbar-track{background:var(--bg)}
+  ::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+  ::-webkit-scrollbar-thumb:hover{background:var(--accent)}
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+      <div class="avatar-wrap">
+        <div class="avatar">MA</div>
+        <div class="name">Munazer Montasir Akash</div>
+        <div class="title-badge">AI / ML Engineer</div>
+      </div>
+
+      <button class="show-contacts-btn" id="contactToggle" onclick="toggleContacts()">Show Contacts ▾</button>
+
+      <div class="contacts" id="contactsBox">
+        <div class="contact-item">
+          <div class="contact-icon">✉</div>
+          <div>
+            <div class="contact-label">Email</div>
+            <div class="contact-val"><a href="mailto:akashmunazer@gmail.com">akashmunazer@gmail.com</a></div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">📞</div>
+          <div>
+            <div class="contact-label">Phone</div>
+            <div class="contact-val"><a href="tel:+8801840162225">+880 1840 162225</a></div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">📍</div>
+          <div>
+            <div class="contact-label">Location</div>
+            <div class="contact-val">Chawkbazar, Chattogram, BD</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">🐙</div>
+          <div>
+            <div class="contact-label">GitHub</div>
+            <div class="contact-val"><a href="https://github.com/AKASH-2019" target="_blank">github.com/AKASH-2019</a></div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">💼</div>
+          <div>
+            <div class="contact-label">LinkedIn</div>
+            <div class="contact-val"><a href="https://linkedin.com/in/munazer-montasir-akash" target="_blank">munazer-montasir-akash</a></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-sep"></div>
+      <div class="social-row">
+        <a class="social-btn" href="https://github.com/AKASH-2019" target="_blank" title="GitHub">⌥</a>
+        <a class="social-btn" href="https://linkedin.com/in/munazer-montasir-akash" target="_blank" title="LinkedIn">in</a>
+        <a class="social-btn" href="mailto:akashmunazer@gmail.com" title="Email">@</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── MAIN ── -->
+  <main class="main">
+
+    <!-- Tabs -->
+    <nav class="tabs">
+      <button class="tab active" onclick="switchTab('about',this)">About</button>
+      <button class="tab" onclick="switchTab('resume',this)">Resume</button>
+      <button class="tab" onclick="switchTab('portfolio',this)">Portfolio</button>
+      <button class="tab" onclick="switchTab('publications',this)">Publications</button>
+      <button class="tab" onclick="switchTab('contact',this)">Contact</button>
+    </nav>
+
+    <!-- ── ABOUT ── -->
+    <div class="section active" id="about">
+
+      <div class="card">
+        <h2 class="card-title">About Me</h2>
+        <p class="about-text">
+          I'm an AI/ML Engineer and Adjunct Faculty member based in Chattogram, Bangladesh.
+          I specialize in building intelligent systems — from RAG-based chatbots and computer vision pipelines
+          to full-stack ML web applications. My passion lies in turning real-world problems into deployable AI solutions
+          using Python, FastAPI, LangChain, and modern deep learning frameworks.
+          Currently pursuing my MSc in CSE at BUET while working as a Junior AI Engineer at GoWafir,
+          where I build production-grade AI automation workflows.
+        </p>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">What I Do</h2>
+        <div class="services-grid">
+          <div class="service-item">
+            <div class="service-icon">🤖</div>
+            <div>
+              <div class="service-name">AI & ML Engineering</div>
+              <div class="service-desc">Building intelligent systems with deep learning, LLMs, and computer vision for real-world deployment.</div>
+            </div>
+          </div>
+          <div class="service-item">
+            <div class="service-icon">⚡</div>
+            <div>
+              <div class="service-name">Backend & API Dev</div>
+              <div class="service-desc">Production-ready REST APIs with FastAPI, Django REST Framework, and containerized Docker deployments.</div>
+            </div>
+          </div>
+          <div class="service-item">
+            <div class="service-icon">🔗</div>
+            <div>
+              <div class="service-name">LLM & RAG Systems</div>
+              <div class="service-desc">Designing RAG chatbots with LangChain, FAISS vector stores, and cost-optimized embedding pipelines.</div>
+            </div>
+          </div>
+          <div class="service-item">
+            <div class="service-icon">🎓</div>
+            <div>
+              <div class="service-name">Teaching & Mentoring</div>
+              <div class="service-desc">Adjunct faculty at IIUC — teaching Data Structures and C Programming to undergraduate students.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">Tech Stack</h2>
+        <div class="tech-tags">
+          <span class="tech-tag">Python</span>
+          <span class="tech-tag">FastAPI</span>
+          <span class="tech-tag">LangChain</span>
+          <span class="tech-tag">PyTorch</span>
+          <span class="tech-tag">Keras</span>
+          <span class="tech-tag">YOLO</span>
+          <span class="tech-tag">Docker</span>
+          <span class="tech-tag">n8n</span>
+          <span class="tech-tag">Django</span>
+          <span class="tech-tag">PostgreSQL</span>
+          <span class="tech-tag">MySQL</span>
+          <span class="tech-tag">FAISS</span>
+          <span class="tech-tag">Git</span>
+          <span class="tech-tag">C / C++</span>
+          <span class="tech-tag">NumPy</span>
+          <span class="tech-tag">Pandas</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── RESUME ── -->
+    <div class="section" id="resume">
+
+      <div class="card">
+        <h2 class="card-title">Experience</h2>
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-period">2026 — Present</div>
+            <div class="tl-title">Junior AI Engineer — Contractual</div>
+            <div class="tl-sub">GoWafir · Chittagong, Bangladesh (Remote)</div>
+            <div class="tl-desc">
+              Building backend API development, AI-based automation workflows, and system integration using FastAPI and Python.
+              Deployed production RAG chatbot fully integrated into the live gowafir.com website.
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-period">Jan 2023 — Present</div>
+            <div class="tl-title">Adjunct Faculty</div>
+            <div class="tl-sub">IIUC · Kumira, Chittagong</div>
+            <div class="tl-desc">
+              <ul>
+                <li>Teaching undergraduate courses in Data Structures and C Programming, focusing on core concepts and practical implementation.</li>
+                <li>Conducting lectures, labs, and assessments to strengthen students' programming and problem-solving skills.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-period">May 2021 — May 2022</div>
+            <div class="tl-title">Full Stack Developer</div>
+            <div class="tl-sub">Paykhom Ltd · Khulshi, Chittagong</div>
+            <div class="tl-desc">
+              Built and maintained web applications using Django framework and PostgreSQL database. Handled full development lifecycle from frontend to backend APIs.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">Education</h2>
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-period">2023 — Present</div>
+            <div class="tl-title">MSc in Computer Science & Engineering</div>
+            <div class="tl-sub">Bangladesh University of Engineering & Technology (BUET)</div>
+            <div class="tl-desc">Currently pursuing postgraduate research in AI/ML.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-period">2016 — 2021</div>
+            <div class="tl-title">BSc in Computer Science & Engineering</div>
+            <div class="tl-sub">International Islamic University Chittagong (IIUC) · GPA: 3.68</div>
+            <div class="tl-desc">Completed undergraduate degree with strong focus on algorithms, data structures, and software engineering.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-period">HSC</div>
+            <div class="tl-title">Higher Secondary Certificate</div>
+            <div class="tl-sub">Patia Govt. College · Science · GPA: 4.10</div>
+            <div class="tl-desc"></div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-period">SSC</div>
+            <div class="tl-title">Secondary School Certificate</div>
+            <div class="tl-sub">Chittagong Govt. High School · Science · GPA: 4.75</div>
+            <div class="tl-desc"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">Skills</h2>
+        <div class="skill-list" id="skillList">
+          <div class="skill-item">
+            <div class="skill-header"><span class="skill-name">Machine Learning & Deep Learning</span><span class="skill-pct">90%</span></div>
+            <div class="skill-bar"><div class="skill-fill" style="width:0" data-w="90%"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-header"><span class="skill-name">Python & API Development</span><span class="skill-pct">88%</span></div>
+            <div class="skill-bar"><div class="skill-fill" style="width:0" data-w="88%"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-header"><span class="skill-name">LLM / RAG / LangChain</span><span class="skill-pct">82%</span></div>
+            <div class="skill-bar"><div class="skill-fill" style="width:0" data-w="82%"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-header"><span class="skill-name">Computer Vision (YOLO, OpenCV)</span><span class="skill-pct">78%</span></div>
+            <div class="skill-bar"><div class="skill-fill" style="width:0" data-w="78%"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-header"><span class="skill-name">Docker & Deployment</span><span class="skill-pct">75%</span></div>
+            <div class="skill-bar"><div class="skill-fill" style="width:0" data-w="75%"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-header"><span class="skill-name">Database Systems</span><span class="skill-pct">72%</span></div>
+            <div class="skill-bar"><div class="skill-fill" style="width:0" data-w="72%"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-header"><span class="skill-name">Data Structures & Algorithms</span><span class="skill-pct">85%</span></div>
+            <div class="skill-bar"><div class="skill-fill" style="width:0" data-w="85%"></div></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── PORTFOLIO ── -->
+    <div class="section" id="portfolio">
+      <div class="card">
+        <h2 class="card-title">Projects</h2>
+        <div class="filter-bar">
+          <button class="filter-btn active" onclick="filterProjects('all',this)">All</button>
+          <button class="filter-btn" onclick="filterProjects('nlp',this)">NLP / LLM</button>
+          <button class="filter-btn" onclick="filterProjects('cv',this)">Computer Vision</button>
+          <button class="filter-btn" onclick="filterProjects('fullstack',this)">Full Stack</button>
+          <button class="filter-btn" onclick="filterProjects('automation',this)">Automation</button>
+        </div>
+        <div class="projects-grid" id="projectsGrid">
+          <div class="project-card" data-cat="nlp">
+            <div class="project-thumb">🤖</div>
+            <div class="project-body">
+              <div class="project-cat">NLP / LLM · RAG</div>
+              <div class="project-name">Company Knowledge Chatbot</div>
+              <div class="project-desc">Production RAG chatbot using FastAPI, LangChain, FAISS, Docker. Integrates Gemini API with local Ollama embeddings. Deployed to gowafir.com.</div>
+            </div>
+          </div>
+          <div class="project-card" data-cat="cv">
+            <div class="project-thumb">🥚</div>
+            <div class="project-body">
+              <div class="project-cat">Computer Vision · Tracking</div>
+              <div class="project-name">Egg Counting & Classification System</div>
+              <div class="project-desc">Real-time egg counter using YOLO + ByteTrack on conveyor belt. Line-crossing logic classifies brown/white eggs with persistent IDs.</div>
+            </div>
+          </div>
+          <div class="project-card" data-cat="cv">
+            <div class="project-thumb">💵</div>
+            <div class="project-body">
+              <div class="project-cat">Computer Vision · API</div>
+              <div class="project-name">Bangla Taka Note Detection API</div>
+              <div class="project-desc">YOLOv11-based Bangla currency detection. FastAPI + Docker REST endpoint returning denomination, confidence, and bounding box coordinates.</div>
+            </div>
+          </div>
+          <div class="project-card" data-cat="automation">
+            <div class="project-thumb">⚙️</div>
+            <div class="project-body">
+              <div class="project-cat">Automation · LLM</div>
+              <div class="project-name">n8n AI-Powered Summarization</div>
+              <div class="project-desc">Article URL → Firecrawl extraction → Groq LLM summaries → Google Sheets + Email delivery. Connected to FastAPI backend and React frontend.</div>
+            </div>
+          </div>
+          <div class="project-card" data-cat="fullstack">
+            <div class="project-thumb">📈</div>
+            <div class="project-body">
+              <div class="project-cat">Full Stack · ML</div>
+              <div class="project-name">Full Stack ML Web Application</div>
+              <div class="project-desc">Django REST Framework + React.js with secure auth. LSTM-based stock price prediction model with Pandas, NumPy, and Matplotlib visualizations.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── PUBLICATIONS ── -->
+    <div class="section" id="publications">
+      <div class="card">
+        <h2 class="card-title">Research Publications</h2>
+        <div class="pub-item">
+          <div class="pub-venue">SpringerOpen · Published</div>
+          <div class="pub-title">SICE: An Improved Missing Data Imputation Technique</div>
+          <div class="pub-status">Published in SpringerOpen journal. Research on novel statistical imputation methods for handling missing values in datasets.</div>
+        </div>
+        <div class="pub-item">
+          <div class="pub-venue">IEEE · Under Review</div>
+          <div class="pub-title">A Unified BERT-CNN-BiLSTM Framework</div>
+          <div class="pub-status">Under review at IEEE. Proposes a hybrid deep learning architecture combining BERT, CNN, and BiLSTM for enhanced NLP classification tasks.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">Certifications</h2>
+        <div class="cert-item">
+          <div class="cert-icon">🏆</div>
+          <div>
+            <div class="cert-name">Full Stack Machine Learning</div>
+            <div class="cert-desc">Django REST Framework + React. Built an end-to-end ML web application with secure authentication, API integration, and an LSTM-based stock price prediction model.</div>
+          </div>
+        </div>
+        <div class="cert-item">
+          <div class="cert-icon">🎯</div>
+          <div>
+            <div class="cert-name">AI Engineering Bootcamp for Programmers — Ostad (Running)</div>
+            <div class="cert-desc">Covering AI fundamentals, ML, Deep Learning, data processing, model evaluation, and deployment. Completed hands-on projects in EDA, regression, classification, clustering, computer vision, object detection, NLP, and built deployable solutions using FastAPI and Docker.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">References</h2>
+        <div class="ref-item">
+          <div class="ref-name">Dr. Shahidul Islam Khan (Nayeem)</div>
+          <div class="ref-role">Professor and Head, Department of CSE · Presidency University</div>
+          <div class="ref-email"><a href="mailto:shahid@pu.edu.bd">shahid@pu.edu.bd</a></div>
+        </div>
+        <div class="ref-item">
+          <div class="ref-name">Prof. Mohammed Shamsul Alam</div>
+          <div class="ref-role">Professor and Dean · International Islamic University Chittagong</div>
+          <div class="ref-email"><a href="mailto:msa@iiuc.ac.bd">msa@iiuc.ac.bd</a></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── CONTACT ── -->
+    <div class="section" id="contact">
+      <div class="card">
+        <h2 class="card-title">Get In Touch</h2>
+        <div class="contact-grid">
+          <div class="contact-card">
+            <div class="contact-card-icon">✉️</div>
+            <div>
+              <div class="contact-card-label">Email</div>
+              <div class="contact-card-val"><a href="mailto:akashmunazer@gmail.com">akashmunazer@gmail.com</a></div>
+            </div>
+          </div>
+          <div class="contact-card">
+            <div class="contact-card-icon">📱</div>
+            <div>
+              <div class="contact-card-label">Phone</div>
+              <div class="contact-card-val"><a href="tel:+8801840162225">+880 1840 162225</a></div>
+            </div>
+          </div>
+          <div class="contact-card">
+            <div class="contact-card-icon">🐙</div>
+            <div>
+              <div class="contact-card-label">GitHub</div>
+              <div class="contact-card-val"><a href="https://github.com/AKASH-2019" target="_blank">github.com/AKASH-2019</a></div>
+            </div>
+          </div>
+          <div class="contact-card">
+            <div class="contact-card-icon">💼</div>
+            <div>
+              <div class="contact-card-label">LinkedIn</div>
+              <div class="contact-card-val"><a href="https://linkedin.com/in/munazer-montasir-akash" target="_blank">munazer-montasir-akash</a></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">Send a Message</h2>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" placeholder="Your name">
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" placeholder="your@email.com">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Subject</label>
+          <input type="text" placeholder="What's this about?">
+        </div>
+        <div class="form-group">
+          <label>Message</label>
+          <textarea placeholder="Write your message here..."></textarea>
+        </div>
+        <button class="submit-btn" onclick="sendMsg()">Send Message →</button>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+  function switchTab(id, btn) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(id).classList.add('active');
+    if (id === 'resume') animateSkills();
+  }
+
+  function toggleContacts() {
+    const box = document.getElementById('contactsBox');
+    const btn = document.getElementById('contactToggle');
+    box.classList.toggle('visible');
+    btn.classList.toggle('open');
+    btn.textContent = box.classList.contains('visible') ? 'Hide Contacts ▴' : 'Show Contacts ▾';
+  }
+
+  function filterProjects(cat, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.project-card').forEach(card => {
+      if (cat === 'all' || card.dataset.cat === cat) {
+        card.classList.remove('hidden');
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+  }
+
+  let skillsAnimated = false;
+  function animateSkills() {
+    if (skillsAnimated) return;
+    skillsAnimated = true;
+    setTimeout(() => {
+      document.querySelectorAll('.skill-fill').forEach(el => {
+        el.style.width = el.dataset.w;
+      });
+    }, 100);
+  }
+
+  function sendMsg() {
+    const btn = document.querySelector('.submit-btn');
+    btn.textContent = 'Message Sent ✓';
+    btn.style.background = 'linear-gradient(135deg,#06d6a0,#1b9aaa)';
+    setTimeout(() => {
+      btn.textContent = 'Send Message →';
+      btn.style.background = '';
+    }, 3000);
+  }
+</script>
+</body>
+</html>
